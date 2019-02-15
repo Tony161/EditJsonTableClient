@@ -1,11 +1,70 @@
-import React from 'react';
-import data from './task.json';
+import React, { Component } from 'react';
 import Table from './table';
+import axios from 'axios';
 
-export default () => {
-  return (
-    <div className="container">
-      <Table data={data} />
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { data: [] }
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:3012/persons')
+      .then((response) => {
+        this.setState({
+          data: response.data
+        })
+      })
+  }
+
+  deleteBtn = (id) => {
+    axios.delete(`http://localhost:3012/persons/${id}`)
+      .then((response) => {
+        this.setState({
+          data: response.data
+        })
+      })
+  }
+
+  addBtn = (name, surname, company) => {
+    axios.post('http://localhost:3012/persons', {
+      name,
+      surname,
+      company
+    })
+      .then((response) => {
+        this.setState({
+          data: response.data
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  editBtn = (id, name, surname, company) => {
+    axios.put(`http://localhost:3012/persons/${id}`, {
+      name,
+      surname,
+      company
+    })
+      .then((response) => {
+        this.setState({
+          data: response.data
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <Table data={this.state.data} deleteHandler={this.deleteBtn} addHandler={this.addBtn} editHandler={this.editBtn} />
+      </div>
+    );
+  }
 }
+
+export default App;
