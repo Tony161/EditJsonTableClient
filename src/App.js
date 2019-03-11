@@ -9,7 +9,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3012/persons')
+    axios.get('http://localhost:3003/persons')
       .then((response) => {
         this.setState({
           data: response.data
@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   deleteBtn = (id) => {
-    axios.delete(`http://localhost:3012/persons/${id}`)
+    axios.delete(`http://localhost:3003/persons/${id}`)
       .then((response) => {
         this.setState({
           data: response.data
@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   addBtn = (name, surname, company) => {
-    axios.post('http://localhost:3012/persons', {
+    axios.post('http://localhost:3003/persons', {
       name,
       surname,
       company
@@ -43,7 +43,7 @@ class App extends Component {
   }
 
   editBtn = (id, name, surname, company) => {
-    axios.put(`http://localhost:3012/persons/${id}`, {
+    axios.put(`http://localhost:3003/persons/${id}`, {
       name,
       surname,
       company
